@@ -74,7 +74,6 @@ The game serves as an accessible, interactive introduction to AMR concepts for t
 ## 👥 Team
 
 | Name |
-|------|------|
 | Joel Gijo |
 | Bibin Kunnathettu Biju |
 | K Ryan George |
