@@ -68,7 +68,7 @@ function WelcomeScreen({ onStart }) {
           textShadow: "0 0 40px #00e5ff44",
           textAlign: "center",
         }}>
-          AMR Quest
+          AMR QUEST
         </div>
         <div style={{ width: 48, height: 2, background: `linear-gradient(to right, transparent, ${C.accent}, transparent)`, margin: "12px auto 0" }} />
       </div>
