@@ -69,21 +69,6 @@ This game was built as part of the **AMR-X** project — a machine learning-driv
 
 The game serves as an accessible, interactive introduction to AMR concepts for the general public, especially younger audiences at the project expo.
 
----
-
-## 👥 Team
-
-| Name |
-|------|------|
-| Joel Gijo |
-| Bibin Kunnathettu Biju |
-| K Ryan George |
-| Bipin Dev B |
-
-**Project Guide:** Dr. Anju J Prakash
-
----
-
 ## 📜 License
 
 This mini game project is for educational and demonstration purposes as part of the AMR-X research initiative.
