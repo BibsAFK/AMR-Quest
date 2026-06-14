@@ -1,4 +1,4 @@
-# 🦠 AMR Quest
+# AMR Quest
 
 [🚀 Launch AMR Quest](https://amr-quest.vercel.app)
 
