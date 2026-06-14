@@ -1,6 +1,6 @@
 # 🦠 AMR Quest
 
-amr-quest.vercel.app
+[Live Demo](https://amr-quest.vercel.app)
 
 AMR Quest is a small interactive web experience that helps people understand Antimicrobial Resistance (AMR) through simple gameplay and visual interaction.
 
