@@ -52,7 +52,7 @@ function WelcomeScreen({ onStart }) {
       {/* Powered by — top badge */}
       <div style={{ position: "absolute", top: 18, left: 0, right: 0, display: "flex", justifyContent: "center" }}>
         <span style={{ background: `${C.accent}14`, border: `1px solid ${C.accent}33`, borderRadius: 20, padding: "4px 14px", color: C.accent, fontFamily: "'Space Grotesk',sans-serif", fontSize: "0.68rem", letterSpacing: 2, fontWeight: 600 }}>
-          POWERED BY AMR
+          PRESENTED BY AMR
         </span>
       </div>
 
@@ -161,17 +161,17 @@ function HTPRow({ num, color, text }) {
 function GameScreen({ onDone }) {
   const [phase, setPhase] = useState("intro");
   const [roundIdx, setRoundIdx] = useState(0);
-  const [roundKills, setRoundKills] = useState([]); // bacteria killed per round
+  const [roundKills, setRoundKills] = useState([]);
   const [germs, setGerms] = useState([]);
   const [killed, setKilled] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
   const [lastWin, setLastWin] = useState(null);
   const [lastKilled, setLastKilled] = useState(0);
+
   const timerRef = useRef(null);
   const doneRef = useRef(false);
   const killedRef = useRef(0);
-
-  const cfg = ROUND_CONFIG[roundIdx];
+  const roundKillsRef = useRef([]);
 
   const startRound = useCallback((idx) => {
     const c = ROUND_CONFIG[idx];
@@ -184,8 +184,27 @@ function GameScreen({ onDone }) {
     setPhase("playing");
   }, []);
 
+  const endRound = useCallback((k) => {
+    if (doneRef.current) return;
+
+    doneRef.current = true;
+    clearInterval(timerRef.current);
+
+    const c = ROUND_CONFIG[roundIdx];
+    const win = k >= c.germCount;
+
+    const updatedRounds = [...roundKillsRef.current, k];
+    roundKillsRef.current = updatedRounds;
+    setRoundKills(updatedRounds);
+
+    setLastWin(win);
+    setLastKilled(k);
+    setPhase("roundEnd");
+  }, [roundIdx]);
+
   useEffect(() => {
     if (phase !== "playing") return;
+
     timerRef.current = setInterval(() => {
       setTimeLeft(t => {
         if (t <= 1) {
@@ -196,47 +215,39 @@ function GameScreen({ onDone }) {
         return t - 1;
       });
     }, 1000);
+
     return () => clearInterval(timerRef.current);
-  }, [phase]);
+  }, [phase, endRound]);
 
   function tapGerm(id) {
     if (phase !== "playing" || doneRef.current) return;
+
     setGerms(g => {
       const target = g.find(x => x.id === id);
       if (!target || !target.alive) return g;
+
       const updated = g.map(gm => gm.id === id ? { ...gm, alive: false } : gm);
       killedRef.current += 1;
       setKilled(killedRef.current);
+
       if (killedRef.current >= ROUND_CONFIG[roundIdx].germCount) {
         clearInterval(timerRef.current);
         if (!doneRef.current) endRound(killedRef.current);
       }
+
       return updated;
     });
   }
 
-  function endRound(k) {
-    if (doneRef.current) return;
-    doneRef.current = true;
-    clearInterval(timerRef.current);
-    const c = ROUND_CONFIG[roundIdx];
-    const win = k >= c.germCount;
-    setLastWin(win);
-    setLastKilled(k);
-    setRoundKills(prev => [...prev, k]);
-    setPhase("roundEnd");
-  }
-
   function nextRound() {
     const next = roundIdx + 1;
+
     if (next >= ROUND_CONFIG.length) {
-      // total = sum of all bacteria killed
-      const total = [...roundKills, lastKilled].reduce((a, b) => a + b, 0);
-      // But we already pushed lastKilled in setRoundKills above — use roundKills + lastKilled carefully
-      // Actually roundKills state update is async, so compute directly:
-      onDone([...roundKills].reduce((a, b) => a + b, 0));
+      const total = roundKillsRef.current.reduce((a, b) => a + b, 0);
+      onDone(total);
       return;
     }
+
     setRoundIdx(next);
     startRound(next);
   }
@@ -407,15 +418,17 @@ function GameScreen({ onDone }) {
 // ════════════════════════════════════════════════════════════════════════════
 function ResultScreen({ name, totalKilled, onRestart }) {
   const pct = Math.round((totalKilled / MAX_SCORE) * 100);
+  const didAdd = useRef(false);
 
-  const added = useRef(false);
-  if (!added.current) {
-    // Add with timestamp so latest always beats older equal scores
+  useEffect(() => {
+    if (didAdd.current) return;
+
     BOARD = [...BOARD, { name, score: totalKilled, ts: Date.now() }]
       .sort((a, b) => b.score !== a.score ? b.score - a.score : b.ts - a.ts)
       .slice(0, 8);
-    added.current = true;
-  }
+
+    didAdd.current = true;
+  }, [name, totalKilled]);
 
   const rank = BOARD.findIndex(e => e.name === name && e.score === totalKilled) + 1;
 
@@ -557,19 +570,5 @@ function Btn({ children, onClick, style, disabled }) {
     <button onClick={onClick} disabled={disabled} style={{ background: C.accent, color: "#000", fontWeight: 700, fontSize: "0.93rem", fontFamily: "'Space Grotesk',sans-serif", border: "none", borderRadius: 12, padding: "13px 24px", cursor: disabled ? "not-allowed" : "pointer", letterSpacing: 0.5, transition: "opacity 0.15s", ...style }}>
       {children}
     </button>
-  );
-}
-function OBtn({ children, onClick }) {
-  return (
-    <button onClick={onClick} style={{ background: "transparent", color: C.muted, fontWeight: 600, fontSize: "0.85rem", fontFamily: "'Space Grotesk',sans-serif", border: "1px solid #1e1e3a", borderRadius: 12, padding: "11px 18px", cursor: "pointer" }}>
-      {children}
-    </button>
-  );
-}
-function PBar({ val, color }) {
-  return (
-    <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 3, background: "#0d0d22" }}>
-      <div style={{ height: "100%", width: `${val * 100}%`, background: color, transition: "width 0.4s ease", borderRadius: "0 3px 3px 0", boxShadow: `0 0 8px ${color}` }} />
-    </div>
   );
 }
