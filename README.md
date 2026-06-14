@@ -1,74 +1,83 @@
-# 🦠 AMR Quest — Interactive AMR Awareness Game
+# 🦠 AMR Quest
 
-An interactive, kid-friendly web game designed to raise awareness about **Antimicrobial Resistance (AMR)** — built for the **Project Expo**.
+AMR Quest is a small interactive web experience that helps people understand Antimicrobial Resistance (AMR) through simple gameplay and visual interaction.
 
----
-
-## 🎮 About the Game
-
-AMR Quest is a fun, educational mini-game that helps kids (and everyone!) understand:
-- What **Antimicrobial Resistance (AMR)** is and why it matters
-- The importance of using **antibiotics responsibly**
-- How misuse of medicines leads to **superbugs**
-
-Designed to be engaging, visual, and quick to play — perfect for an expo kiosk or classroom setting.
+Rather than explaining the topic through lengthy presentations, users can interact with bacteria on screen and see how some survive treatment, introducing the basic idea behind antimicrobial resistance in an engaging and memorable way.
 
 ---
 
-## 🚀 Getting Started
+## Why This Project Was Created
+
+AMR Quest was created for our final-year project expo as a companion experience to **AMR-X**, an Antimicrobial Resistance Decision Support System.
+
+While AMR-X focused on machine learning and resistance prediction, we wanted a simpler way to introduce the concept of AMR to visitors from different backgrounds. AMR Quest was designed to make that conversation easier by turning a complex topic into something people could quickly understand through interaction.
+
+The AMR-X project was later recognised as the winning project at our final-year project expo.
+
+---
+
+## Objective
+
+AMR Quest aims to raise awareness about:
+
+* What Antimicrobial Resistance (AMR) is
+* Why antibiotics should be used responsibly
+* How bacteria can survive treatment and become resistant
+* The importance of completing prescribed antibiotic treatments
+
+The experience focuses on learning through interaction rather than large amounts of text.
+
+---
+
+## Features
+
+* Interactive bacteria elimination simulation
+* Different bacteria behaviours and difficulty levels
+* Mutation and resistance mechanics
+* Educational AMR-focused content
+* Responsive design for desktop and mobile devices
+
+---
+
+## Technologies Used
+
+* React
+* JavaScript
+* Vite
+* HTML
+* CSS
+
+---
+
+## Running Locally
 
 ### Prerequisites
-- [Node.js](https://nodejs.org/) (v18 or above)
-- npm
+
+* Node.js
+* npm
 
 ### Installation
 
 ```bash
-# Clone the repository
-git clone https://github.com/yourusername/amrx-game.git
+git clone https://github.com/yourusername/AMRQuest.git
 
-# Navigate into the project folder
-cd amrx-game
+cd AMRQuest
 
-# Install dependencies
 npm install
 
-# Start the development server
 npm run dev
 ```
 
-Then open **http://localhost:5173** in your browser.
+Open the local development URL displayed in the terminal to launch the application.
 
 ---
 
-## 🛠️ Built With
+## About AMR-X
 
-- [React](https://react.dev/) — UI framework
-- [Vite](https://vitejs.dev/) — Fast build tool & dev server
-- Tailwind CSS — Styling
+AMR-X is a machine learning-based antimicrobial resistance decision support system developed by our team as a final-year engineering project. AMR Quest was built as a side project specifically for our expo presentation and was not part of the final-year project itself, serving only to communicate the core concept of antimicrobial resistance in a more accessible and interactive way.
 
 ---
 
-## 📁 Project Structure
+## License
 
-```
-amrx-game/
-├── src/
-│   ├── amr-kids-game.jsx   # Main game component
-│   └── main.jsx            # Entry point
-├── public/
-├── index.html
-└── package.json
-```
-
----
-
-## 🎯 Purpose
-
-This game was built as part of the **AMR-X** project — a machine learning-driven Antimicrobial Resistance Decision Support System developed by AMR-X Team to give the young audience an idea about our project thru a small interactive game. 
-
-The game serves as an accessible, interactive introduction to AMR concepts for the general public, especially younger audiences at the project expo.
-
-## 📜 License
-
-This mini game project is for educational and demonstration purposes as part of the AMR-X research initiative.
+This project is provided for educational, awareness, research, and portfolio purposes.
